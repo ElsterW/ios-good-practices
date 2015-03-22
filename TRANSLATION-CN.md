@@ -75,31 +75,45 @@ A good first step when putting a project under version control is to have a dece
 
 If you're planning on including external dependencies (e.g. third-party libraries) in your project, [CocoaPods][cocoapods] offers easy and fast integration. Install it like so:
 
+如果你计划增加外部依赖(比如，第三方依赖)在你的项目中， [CocoaPods][cocoapods] 提供了一个快捷的途径，就像这样：
+
     sudo gem install cocoapods
 
 To get started, move inside your iOS project folder and run
+
+开始使用，仅仅需要在你的 iOS 项目目录下运行：
 
     pod init
 
 This creates a Podfile, which will hold all your dependencies in one place. After adding your dependencies to the Podfile, you run
 
+它会创建一个 Podfile， 会管理你所有的依赖，在 Podfile 中加入你的依赖后，允许
+
     pod install
 
 to install the libraries and include them as part of a workspace which also holds your own project. It is generally [recommended to commit the installed dependencies to your own repo][committing-pods], instead of relying on having each developer running `pod install` after a fresh checkout.
 
+来安装第三非苦并且将它们作为 workspace 的一部分，你的workspace 也会包含你自己的项目。 一般推荐[提交你自己的项目的依赖][committing-pods]，而不是依赖每个开发者运行 `pod install` 在一个 checkout之后。
+
 Note that from now on, you'll need to open the `.xcworkspace` file instead of `.xcproject`, or your code will not compile. The command
+
+注意在之后你需要打开 `.xcworkspace`  而不是 `.xcproject`，否则你的代码就不能被编译了，命令：
 
     pod update
 
 will update all pods to the newest versions permitted by the Podfile. You can use a wealth of [operators][cocoapods-pod-syntax] to specify your exact version requirements.
 
+会升级所有的 pod 到最新版本，你可以用大量  [符号][cocoapods-pod-syntax] 来定义你期望的版本需求。
+
 [cocoapods]: http://www.cocoapods.org
 [cocoapods-pod-syntax]: http://guides.cocoapods.org/syntax/podfile.html#pod
 [committing-pods]: https://www.dzombak.com/blog/2014/03/including-pods-in-source-control.html
 
-### Project Structure
+### Project Structure 项目结构
 
 To keep all those hundreds of source files ending up in the same directory, it's a good idea to set up some folder structure depending on your architecture. For instance, you can use the following:
+
+为了组织目录里面的上百个源代码文件，最好根据你的架构来设置一些文件结构。比如，你可以用这样的：
 
     ├─ Models
     ├─ Views
@@ -109,9 +123,13 @@ To keep all those hundreds of source files ending up in the same directory, it's
 
 First, create them as groups (little yellow "folders") within the group with your project's name in Xcode's Project Navigator. Then, for each of the groups, link them to an actual directory in your project path by opening their File Inspector on the right, hitting the little gray folder icon, and creating a new subfolder with the name of the group in your project directory.
 
+首先，将他们创建为 Group（黄色的目录），用 Xcode 的项目导航里面的你的项目中。然后对每个项目里的文件，将它么连接到真实的文件目录，通过打开右边的他们的文件检查器，点击小小的目录图标，创建一个和group同名的子目录，在你的项目目录下。
+
 #### Localization
 
 Keep all user strings in localization files right from the beginning. This is good not only for translations, but also for finding user-facing text quickly. You can add a launch argument to your build scheme to launch the app in a certain language, e.g.
+
+
 
     -AppleLanguages (Finnish)
 
@@ -123,29 +141,39 @@ Find more information about localization in [these presentation slides][l10n-sli
 [language-plural-rules]: http://www.unicode.org/cldr/charts/latest/supplemental/language_plural_rules.html
 [l10n-slides]: https://speakerdeck.com/hasseg/localization-practicum
 
-#### Constants
+#### Constants 常量
 
 Keep app-wide constants in a `Constants.h` file that is included in the prefix header.
 
+创建被 prefix header 引入的一个  `Constants.h` 
+
 Instead of preprocessor macro definitions (via `#define`), use actual constants:
+不要用宏定义（用 `#define`），用实际的常量
 
     static CGFloat const XYZBrandingFontSizeSmall = 12.0f;
     static NSString * const XYZAwesomenessDeliveredNotificationName = @"foo";
 
+
 Actual constants are type-safe, have more explicit scope (they’re not available in all imported/included files until undefined), cannot be redefined or undefined in later parts of the code, and are available in the debugger.
 
+常量是类型安全，并且有更明确的作用域（并不是在所有没有被引入的包含文件中能用的）。不能被重定义，并且可以在调试器中使用。
 
-### Branching Model
+
+### Branching Model 分支模型
 
 Especially when distributing an app to the public (e.g. through the App Store), it's a good idea to isolate releases to their own branch with proper tags. Also, feature work that involves a lot of commits should be done on its own branch. [`git-flow`][gitflow-github] is a tool that helps you follow these conventions. It is simply a convenience wrapper around Git's branching and tagging commands, but can help maintain a proper branching structure especially for teams. Do all development on feature branches (or on `develop` for smaller work), tag releases with the app version, and commit to master only via
+
+特别是分发你的 app 的时候（如提交到 App Store），虽好把分支用特别的 tag 隔离。同时，新特性的工作，会引入很多 commits的，也应该在独立的分支上提交。[`git-flow`][gitflow-github] 是一个帮助你遵从这个约定的工具。它简单地包装了 git的分支和tag的命令，帮助维护一个正确的分支结构。所有的开发分支（比如  `develop`）， 关于 app版本的tag分支以及提交到 master分支的：
 
     git flow release finish <version>
 
 [gitflow-github]: https://github.com/nvie/gitflow
 
-## Common Libraries
+## Common Libraries 常用库
 
 Generally speaking, make it a conscious decision to add an external dependency to your project. Sure, this one neat library solves your problem now, but maybe later gets stuck in maintenance limbo, with the next OS version that breaks everything being just around the corner. Another scenario is that a feature only achievable with external libraries suddenly becomes part of the official APIs. In a well-designed codebase, switching out the implementation is a small effort that pays off quickly. Always consider solving the problem using Apple's extensive (and mostly excellent) frameworks first!
+
+总得给来说， make it a conscious decision 来把一个第三方库加入到你的项目中
 
 Therefore this section has been deliberately kept rather short. The libraries featured here tend to reduce boilerplate code (e.g. Auto Layout) or solve complex problems that require extensive testing, such as date calculations. As you become more proficient with iOS, be sure to dive into the source here and there, and acquaint yourself with their underlying Apple frameworks. You'll find that those alone can do a lot of the heavy lifting.
 
@@ -153,12 +181,14 @@ Therefore this section has been deliberately kept rather short. The libraries fe
 
 A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
 
-### DateTools
+99.95% 的 iOS开发者使用这个网络库，当 `NSURLSession` 自己本身也非常完善的时候， `AFNetworking` 仍然能凭借很多app需要的队列请求管理功能立足于不败之地。
+
+### DateTools 日期工具
 As a general rule, [don't write your date calculations yourself][timezones-youtube]. Luckily, in DateTools you get an MIT-licensed, thoroughly tested library that covers pretty much all your calendary needs.
 
 [timezones-youtube]: https://www.youtube.com/watch?v=-5wpm-gesOY
 
-### Auto Layout Libraries
+### Auto Layout Libraries   Auto Layout 库
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
 
 [Masonry][masonry-github] remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
@@ -168,7 +198,7 @@ If you prefer to write your views in code, chances are you've met either of Appl
 [cartography-github]: https://github.com/robb/Cartography
 [flkautolayout-github]: https://github.com/floriankugler/FLKAutoLayout
 
-## Architecture
+## Architecture 架构
 
 * [Model-View-Controller-Store (MVCS)][mvcs]
     * This is the default Apple architecture (MVC), extended by a Store layer that vends Model instances and handles the networking, caching etc.
@@ -220,9 +250,9 @@ Use dependency injection, i.e. pass any required objects in as parameters, inste
 + [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
 ```
 
-## Networking
+## Networking 网络
 
-### Traditional way: Use custom callback blocks
+### Traditional way: Use custom callback blocks  传统的方式：使用回调 block
 
 ```objective-c
 // GigStore.h
@@ -246,11 +276,17 @@ typedef void (^FetchGigsBlock)(NSArray *gigs, NSError *error);
 
 This works, but can quickly lead to callback hell if you need to chain multiple requests.
 
-### Reactive way: Use RAC signals
+这个可以运行，但是如果你有多个组合的网络请求的时候就会进入回调嵌套的地狱。
+
+### Reactive way: Use RAC signals Reactive 的方法： 使用 RAC 信号
 
 If you find yourself in callback hell, have a look at [ReactiveCocoa (RAC)][reactivecocoa-github]. It's a versatile and multi-purpose library that can change the way people write [entire apps][groceryList-github], but you can also use it sparingly where it fits the task.
 
 There are good introductions to the concept of RAC (and FRP in general) on [Teehan+Lax][teehan-lax-rac] and [NSHipster][nshipster-rac].
+
+如果你发现已经陷入了回调的地狱，看看 [ReactiveCocoa (RAC)][reactivecocoa-github] 吧，它是一个万能而且多功能的库，能改变大家写  [entire apps][groceryList-github] 的方法，但是你可以在它适用的地方保守地使用它。
+
+在 [Teehan+Lax][teehan-lax-rac] 和 [NSHipster][nshipster-rac] 上面有一些关于 RAC (and FRP in general) 以及函数式编程的概念的优秀介绍。
 
 [grocerylist-github]: https://github.com/jspahrsummers/GroceryList
 [teehan-lax-rac]: http://www.teehanlax.com/blog/getting-started-with-reactivecocoa/
@@ -275,15 +311,21 @@ There are good introductions to the concept of RAC (and FRP in general) on [Teeh
 
 This allows us to transform or filter gigs before showing them, by combining the gig signal with other signals.
 
-## Assets
+它允许在展示它们之前做一些改变，通过信号和其他信号的结合
+
+## Assets 资源
 
 [Asset catalogs][asset-catalogs] are the best way to manage all your project's visual assets. They can hold both universal and device-specific (iPhone 4-inch, iPhone Retina, iPad, etc.) assets and will automatically serve the correct ones for a given name. Teaching your designer(s) how to add and commit things there (Xcode has its own built-in Git client) can save a lot of time that would otherwise be spent copying stuff from emails or other channels to the codebase. It also allows them to instantly try out their changes and iterate if needed.
 
+[Asset catalogs][asset-catalogs] 是管理你所有项目可视化资源的最好方式，它们可以同事管理通用的以及设备相关的iPhone 4-inch, iPhone Retina, iPad, etc.)资源，并且会自动通过它们的名字分组。告诉你的设计师如何增加它们（Xcode有内置的 Git 客户端）可以节省很多时间，否则你会话很多时间在从邮件或者其他渠道复制到代码库里面。它可以让设计师马上尝试资源改变的样子并且反复实验。
+
 [asset-catalogs]: https://developer.apple.com/library/ios/recipes/xcode_help-image_catalog-1.0/Recipe.html
 
-### Using Bitmap Images
+### Using Bitmap Images  使用位图
 
 Asset catalogs expose only the names of image sets, abstracting away the actual file names within the set. This nicely prevents asset name conflicts, as files such as `button_large@2x.png` are now namespaced inside their image sets. However, some discipline when naming assets can make life easier:
+
+Asset catalogs 仅仅暴露了图片的名称，图片集里面的抽象的名字。这可以避免资源名字的冲突，就像 `button_large@2x.png` 的文件的命名空间在它的图片集里面。遵守一些命名规则可以让生活更美好：
 
 ```objective-c
 IconCheckmarkHighlighted.png // Universal, non-Retina
@@ -297,35 +339,50 @@ IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
 
 The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
 
-### Using Vector Images
+修饰名字 `-568h`, `@2x`, `~iphone` and `~ipad` 是不必要的，但是有他们在文件里面，当吧文件拖进去的时候，Xcode会正确地处置它们。这避免赋值错误。
+
+### Using Vector Images 使用向量图
 
 You can include the original [vector graphics (PDFs)][vector-assets] produced by designers into the asset catalogs, and have Xcode automatically generate the bitmaps from that. This reduces the complexity of your project (the number of files to manage.)
 
-[vector-assets]: http://martiancraft.com/blog/2014/09/vector-images-xcode6/
+你可以用设计师原始的 [vector graphics (PDFs)][vector-assets] 加入到
 
-## Coding Style
+[vector-assets]: http://martiancraft.com/blog/2014/09/vector-images-xcode6/ asset catalogs，Xcode可以自动地根据它们生成位图。这减少了你的工程的复杂性（管理更少的文件）。
 
-### Naming
+## Coding Style 代码风格
+
+### Naming 命名
 
 Apple pays great attention to keeping naming consistent, if sometimes a bit verbose, throughout their APIs. When developing for Cocoa, you make it much easier for new people to join the project if you follow [Apple's naming conventions][cocoa-coding-guidelines].
+
+尽管命名约定很长，但是Apple一如既往地在 API中 遵守了命名原则。
 
 [cocoa-coding-guidelines]: https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CodingGuidelines/CodingGuidelines.html
 
 Here are some basic takeaways you can start using right away:
 
+这里有一些你应该使用的基本原则：
+
 A method beginning with a _verb_ indicates that it performs some side effects, but won't return anything:
+
+一个方法用 _动词_ 开头的表示它做了一些副作用，但是不会返回任何东西：
 `- (void)loadView;`
 `- (void)startAnimating;`
 
 Any method starting with a _noun_, however, returns that object and should do so without side effects:
+任何以 _名词_ 开头的方法，没有副作用而且返回了它指的对象：
 `- (UINavigationItem *)navigationItem;`
 `+ (UILabel *)labelWithText:(NSString *)text;`
 
 It pays off to keep these two as separated as possible, i.e. not perform side effects when you transform data, and vice versa. That will keep your side effects contained to smaller sections of the code, which makes it more understandable and facilitates debugging.
 
-### Structure
+
+
+### Structure 结构
 
 [Pragma marks](http://nshipster.com/pragma/) are a great way to group your methods, especially in view controllers. Here is a common structure that works with almost any view controller:
+
+[Pragma marks](http://nshipster.com/pragma/)  是把你代码分组的一个好方法，特别是在 view Controller里。这里有可以适用于绝大多数 view Controller的工作。
 
 ```objective-c
 
@@ -383,9 +440,14 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 
 The most important point is to keep these consistent across your project's classes.
 
-### External Style Guides
+最重要的一点是在你项目的类中保持一致性
+
+### External Style Guides 其他风格指南
 
 Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the Objective-C style guides of other development shops, even if some bits can be quite company-specific or opinionated:
+
+Futurice 没有任何公司级别的代码风格指南。
+
 
 * [GitHub](https://github.com/github/objective-c-style-guide)
 * [Google](http://google-styleguide.googlecode.com/svn/trunk/objcguide.xml)
@@ -394,30 +456,44 @@ Futurice does not have company-level guidelines for coding style. It can however
 * [Sam Soffes](https://gist.github.com/soffes/812796)
 * [Luke Redpath](http://lukeredpath.co.uk/blog/2011/06/28/my-objective-c-style-guide/)
 
-## Diagnostics
+## Diagnostics 诊断
 
-### Compiler warnings
+### Compiler warnings 编译警告
 
 It is recommended that you enable as many compiler warnings as possible, and treat warnings as errors. This recommendation is justified in [these presentation slides][warnings-slides]. The slides also contain information on how to suppress certain warnings in specific files, or in specific sections of code.
 
+推荐你尽可能多打开编译警告，并且像对待错误一样对待编译警告。推荐 [these presentation slides][warnings-slides]。这个幻灯片同时包括了如何在特定文件或者特别代码段里里面消除相关警告的内容。
+
 In short, add at least these values to the _“Other Warning Flags”_ build setting:
+
+简单的来说，至少下面的值需要在  _“Other Warning Flags” 编译设置里面：
 
 - `-Wall` _(Enables lots of additional warnings)_
 - `-Wextra` _(Enables more additional warnings)_
 
 Also enable the _“Treat warnings as errors”_ build setting.
 
+同时打开 _“Treat warnings as errors”_ 
+
 [warnings-slides]: https://speakerdeck.com/hasseg/the-compiler-is-your-friend
 
-### Clang Static Analyzer
+### Clang Static Analyzer Clang 静态分析
 
 The Clang compiler (which Xcode uses) has a _static analyzer_ that performs control and data flow analysis on your code and checks for lots of errors that the compiler cannot.
 
+Clang 编译器（Xcode使用的）有一个 _静态分析器_ 来进行你的代码控制和数据流的分析，来检测编译器不能检测的许多错误。
+
 You can manually run the analyzer from the _Product → Analyze_ menu item in Xcode.
+
+你可以通过在 Xcode 里面手动运行  _Product → Analyze_ 菜单项来手动执行代码分析
 
 The analyzer can work in either “shallow” or “deep” mode. The latter is much slower but may find more issues due to cross-function control and data flow analysis.
 
+分析器可以用浅或者深的模式允许，后者更加慢但是可以从跨函数的控制流和数据流上分析更多问题
+
 Recommendations:
+
+推荐：
 
 - Enable _all_ of the checks in the analyzer (by enabling all of the options in the “Static Analyzer” build setting sections)
 - Enable the _“Analyze during ‘Build’”_ build setting for your release build configuration to have the analyzer run automatically during release builds. (Seriously, do this — you’re not going to remember to run it manually.)
@@ -564,15 +640,19 @@ Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse
 
 [provisioning]: https://github.com/chockenberry/Provisioning
 
-### Uploading
+### Uploading 上床
 
 [iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
 
+[iTunes Connect][itunes-connect] 是苹果的管理你的上传到 App Store的 App 的后台。 Xcode 6 需要一个 Apple ID 作为开发者账号来签名并且上传二进制。
+
 After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
+
+再上传二进制后，耐心等待，可能要画上一个小时。当你的 App出现后，可以链接到对应的App版本并且提交审核
 
 [itunes-connect]: https://itunesconnect.apple.com
 
-## In-App Purchases (IAP)
+## In-App Purchases (IAP) 应用内购买
 
 When validating in-app purchase receipts, remember to perform the following checks:
 
@@ -586,15 +666,23 @@ Whenever possible, design your IAP system to store the content for sale server-s
 
 For more information on this topic, check out the [Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap].
 
+更多关于这个主题的信息可以看[Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap]
+
 [futu-blog-iap]: http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app
 
 
-## More Ideas
+## More Ideas  更多主题
 
 - 3x assets, iPhone 6 screen sizes explained
 - Add list of suggested compiler warnings
 - Ask IT about automated Jenkins build machine
 - Add section on Testing
 - Add "proven don'ts"
+
+- 3x 资源, iPhone 6 屏幕尺寸适配
+- 增加 compiler warnings 列表
+- 关于 Jenkins 的自动化测试
+- 增加测试章节
+- 增加“不要那么做”
 
 [reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa
