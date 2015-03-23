@@ -597,7 +597,11 @@ A target resides conceptually below the project level, i.e. a project can have s
 
 Schemes tell Xcode what should happen when you hit the Run, Test, Profile, Analyze or Archive action. Basically, they map each of these actions to a target and a build configuration. You can also pass launch arguments, such as the language the app should run in (handy for testing your localizations!) or set some diagnostic flags for debugging.
 
+Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze or Archive 操作的时候应该怎么做。它们吧这些操作映射到一个 target 和一个构建设置中。你可以传递启动参数，比如 app 需要允许的语言（为了测试本地话）或者一些了为了调试用的诊断标志。
+
 A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
+
+一个建议的 Scheme 命名是 `MyApp (<Language>) [Environment]`:
 
     MyApp (English) [Development]
     MyApp (German) [Development]
@@ -607,44 +611,72 @@ A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
 
 For most environments the language is not needed, as the app will probably be installed through other means than Xcode, e.g. TestFlight, and the launch argument thus be ignored anyway. In that case, the device language should be set manually to test localization.
 
+
+对于大多数环境来说语言是不必要的，app会可能会以非Xcode的方式安装，比如 TestFlight， 启动参数也会被忽略。这个情况下，为了测试本地话需要手动设置设备的语言。
+
 ## Deployment
 
 Deploying software on iOS devices isn't exactly straightforward. That being said, here are some central concepts that, once understood, will help you tremendously with it.
 
-### Signing
+### Signing 签名
 
 Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
 
+当你需要在真实设备上允许软件的时候，你需要用一个 Apple 认证的   __证书__ 签名。每一个证书是连接到一个 公、私 密钥对，私钥会保存在你的 Mac 的 KeyChain里面，证书有两种类型
+
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
 * __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
+
+
+* __Development certificate:__ 每个组的开发者都有自己的证书，而且它通过请求特到。Xcode可以帮你完成，但是最好不用点击 "Fix issue" 来完成，而是理解它到底做了什么事情。在部署开发版本到设备上的时候需要这个证书。
+* __Distribution certificate:__ 发布证书，可能有多重，但是最好每一个组织有一个，并且通过内部渠道共享。在提交 App 到 App Store 或者你的企业的内部 App Store的时候需要这个证书。
 
 ### Provisioning
 
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
+除了证书，还有  __provisioning profiles__， 它把设备和证书连接起来。而且，它分成 开发 和 分发两种累心。
+
 * __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
+
+
+* __Development provisioning profile: 它包含了一个包含所有能安装这个 app 的设备列表。它同事连接了一个或者多个开发者允许这个 profile使用的证书。profile 可以确认特定的 app，但是对于大多数开发目的，它特别适合用一个通配符 profile，也就是 Apple ID 以一个 星号 (*)结尾的。
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
     * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight][testflight] service. Supertop offers a good [summary of its advantages and issues][testflight-discussion].
     * __App Store:__ This profile has no list of allowed devices, as anyone can install it through Apple's official distribution channel. This profile is required for all App Store releases.
     * __Enterprise:__ Just like App Store, there is no device whitelist, and the app can be installed by anyone with access to the enterprise's internal "app store", which can be just a website with links. This profile is available only on Enterprise accounts.
 
+
+* __Distribution provisioning profile:__ 发布 profile 本身，对于不同使用目的也有不同的类型。每一个发布 profile  链接到一个发布证书，并且在证书过期的时候失效。
+    * __Ad-Hoc:__ 就像开发证书一个，它包含了一个 app 可以安装的设备的白名单。这个 profile 可以用来做 beta 版本，每年可以测试 100 个设备。为了做更细致的测试以及升级到 1000 个测试用户，你可以使用 Apple 最近发布的  [TestFlight][testflight] 服务， Supertop 提供了一个 [summary of its advantages and issues][testflight-discussion].
+    * __App Store:__  这个 profile 没有列出设备，任何人都可以通过苹果官方的发布来安装，所有 App Store 发布的 App都需要这个证书
+    * __Enterprise:__ 就像 App Store，没有设备白名单，任何通过企业内部网络的人都可以从内部“应用商店”安装。应用商店可能只是一个带连接的网站。这个 profile 只允许企业账号使用。
+
+
+
+
 [testflight]: https://developer.apple.com/testflight/
 [testflight-discussion]: http://blog.supertop.co/post/108759935377/app-developer-friends-try-testflight
 
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
+
+想同步所有的证书和 profile到你的机器，可以去 Xcode 的  Preferences 的 Accounts下，添加你的 Apple ID, 然后双击你的 Team 名称。然后底部会有一个刷新按钮，有时候你需要重启 Xcode 来让东西显示出来。
+
 #### Debugging Provisioning
 
 Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
 
+有时候你需要调试一个 provisioning 的问题。比如，XCode可能拒绝安装 app 到一个设备中，因为设备没有在 (development or ad-hoc)  的 profile 设备列表中。这个情况下，你可以使用 Craig Hockenberry 的优秀的 [Provisioning][provisioning] 插件，浏览 `~/Library/MobileDevice/Provisioning Profiles`，选择一个  `.mobileprovision` 文件，并用空格键调用 Finder 的快速查看特性，它会告诉你关于设备，entitlements，证书以及 Apple ID的信息。
+
 [provisioning]: https://github.com/chockenberry/Provisioning
 
-### Uploading 上床
+### Uploading 上传
 
 [iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
 
-[iTunes Connect][itunes-connect] 是苹果的管理你的上传到 App Store的 App 的后台。 Xcode 6 需要一个 Apple ID 作为开发者账号来签名并且上传二进制。
+[iTunes Connect][itunes-connect] 是苹果的管理你的上传到 App Store的 App 的后台。 Xcode 6 需要一个 Apple ID 作为开发者账号来签名并且上传二进制。This can make things tricky when you are part of several developer accounts and want to upload their apps, 因为 _一个 Apple ID 只能和一个 iTunes Connect 账号关联_, 一个变通方案是为每个 iTunes Connect 账号创建一个新的　Apple ID, 使用  Application Loader 取代 Xcode 来上传应用。这样有效地解除了上传最终 `.app` 文件构建和签名的耦合。
 
 After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
 
@@ -656,13 +688,25 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 
 When validating in-app purchase receipts, remember to perform the following checks:
 
+当验证一个 App内购的  receipt的时候，记住做以下步骤：
+
 - __Authenticity:__ That the receipt comes from Apple
 - __Integrity:__ That the receipt has not been tampered with
 - __App match:__ That the app bundle ID in the receipt matches your app’s bundle identifier
 - __Product match:__ That the product ID in the receipt matches your expected product identifier
 - __Freshness:__ That you haven’t seen the same receipt ID before.
 
+
+- __Authenticity:__  receipt 是来自 Apple 的
+- __Integrity:__  receipt 没有被篡改
+- __App match:__ receipt 的 App bundle ID  和你的 App bundle ID 一致 
+- __Product match:__ receipt 里面产品 ID和你期望的一致 
+- __Freshness:__ 你之前没有验证一样的 receipt ID
+
+
 Whenever possible, design your IAP system to store the content for sale server-side, and provide it to the client only in exchange for a valid receipt that passes all of the above checks. This kind of a design thwarts common piracy mechanisms, and — since the validation is performed on the server — allows you to use Apple’s HTTP receipt validation service instead of interpreting the receipt `PKCS #7` / `ASN.1` format yourself.
+
+如果可能，把你的 IAP 存储销售相关的内容存储在服务器端，并且只在一个合法的经过上述检查的 receipt。这样的设计避免了常见的盗窃机制，同时，因为服务器做了验证，所以你可以使用 Apple 的 HTTP 验证服务来取代你自己的 `PKCS #7` / `ASN.1` 格式。
 
 For more information on this topic, check out the [Futurice blog: Validating in-app purchases in your iOS app][futu-blog-iap].
 
