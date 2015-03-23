@@ -177,6 +177,9 @@ Generally speaking, make it a conscious decision to add an external dependency t
 
 Therefore this section has been deliberately kept rather short. The libraries featured here tend to reduce boilerplate code (e.g. Auto Layout) or solve complex problems that require extensive testing, such as date calculations. As you become more proficient with iOS, be sure to dive into the source here and there, and acquaint yourself with their underlying Apple frameworks. You'll find that those alone can do a lot of the heavy lifting.
 
+这个小节尽量保持剪短。库的特性是为了减少模板代码（比如 AutoLayout）或者解决复杂的需要很多测试的问题，比如日期计算。当你在 iOS 中更加专业的时候，挖掘这里的源代码，通过它们底层的 Apple 框架来认识他们，你会发现这些可以做大量工作。
+
+
 ### AFNetworking
 
 A perceived 99.95 percent of iOS developers use this network library. While `NSURLSession` is surprisingly powerful by itself, `AFNetworking` remains unbeaten when it comes to actually managing a queue of requests, which is pretty much a requirement in any modern app.
@@ -190,8 +193,12 @@ As a general rule, [don't write your date calculations yourself][timezones-youtu
 
 ### Auto Layout Libraries   Auto Layout 库
 If you prefer to write your views in code, chances are you've met either of Apple's awkward syntaxes – the regular 'NSLayoutConstraint' factory or the so-called [Visual Format Language][visual-format-language]. The former is extremely verbose and the latter based on strings, which effectively prevents compile-time checking.
+ 
+如果你更喜欢在代码里面写界面，你会用过 Apple 难用的 'NSLayoutConstraint'  的工厂或者 [Visual Format Language][visual-format-language] 。前者很罗嗦，后者基于字符串，不利于编译器检查。
 
 [Masonry][masonry-github] remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
+
+[Masonry][masonry-github] 通过它们自己的 DSL 来取代 常量， Swift 中 一个类似的途径是 [Cartography][cartography-github]，它构建于语言的丰富的操作符重载特性。如果更加保守的话，[FLKAutoLayout][flkautolayout-github] 提供了一个干净但是没有太多魔法的 原生 API 包装。
 
 [visual-format-language]: https://developer.apple.com/library/ios/documentation/userexperience/conceptual/AutolayoutPG/VisualFormatLanguage/VisualFormatLanguage.html#//apple_ref/doc/uid/TP40010853-CH3-SW1
 [masonry-github]: https://www.github.com/Masonry/Masonry
@@ -209,15 +216,27 @@ If you prefer to write your views in code, chances are you've met either of Appl
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
     * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern
 
+
+* [Model-View-Controller-Store (MVCS)][mvcs]
+    * 这是 Apple 默认的架构（MVC），通过扩展一表示 Model 实例的存储层以及处理网络，缓存这些
+    * 每一个存储通过 `RACSignal`s 或者   `void` 返回值的自定义 block 方法来返回。
+* [Model-View-ViewModel (MVVM)][mvvm]
+    * 通过  "massive view controllers": MVVM 认为 `UIViewController` 子类是vuew的一部分，并且保持精简，通过在 viewmodel里面维持状态。 part of the View and keeps them slim by maintaining all state in the ViewModel
+    * Quite new concept for Cocoa developers, but [gaining][cocoasamurai-rac] [traction][raywenderlich-mvvm]
+* [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
+    * Rather exotic architecture that might be worth looking into in larger projects, where even MVVM feels too cluttered and testability is a major concern 值得在大型项目中一看的架构，在 MVVM 都显得复杂，而且需要关注测试的时候。
+
 [mvcs]: http://programmers.stackexchange.com/questions/184396/mvcs-model-view-controller-store
 [mvvm]: http://www.objc.io/issue-13/mvvm.html
 [cocoasamurai-rac]: http://cocoasamurai.blogspot.de/2013/03/basic-mvvm-with-reactivecocoa.html
 [raywenderlich-mvvm]: http://www.raywenderlich.com/74106/mvvm-tutorial-with-reactivecocoa-part-1
 [viper]: http://www.objc.io/issue-13/viper.html
 
-### “Event” Patterns
+### “Event” Patterns Event 陌生
 
 These are the idiomatic ways for components to notify others about things:
+
+这里有一些通知其他对象的常用方法：
 
 * __Delegation:__ _(one-to-one)_ Apple uses this a lot (some would say, too much). Use when you want to communicate stuff back e.g. from a modal view.
 * __Callback blocks:__ _(one-to-one)_ Allow for a more loose coupling, while keeping related code sections close to each other. Also scales better than delegation when there are many senders.
@@ -225,15 +244,27 @@ These are the idiomatic ways for components to notify others about things:
 * __Key-Value Observing (KVO):__ _(one-to-many)_ Does not require the observed object to explicitly “emit events” as long as it is _Key-Value Coding (KVC)_ compliant for the observed keys (properties). Usually not recommended due to its implicit nature and the cumbersome standard library API.
 * __Signals:__ _(one-to-many)_ The centerpiece of [ReactiveCocoa][reactivecocoa-github], they allow chaining and combining to your heart's content, thereby offering a way out of [callback hell][elm-escape-from-callback-hell].
 
+
+* __Delegation:__ _(one-to-one)_ Apple 经常用它（或者说，太多了）。用它来执行回调，比如， Model view 做一个回调
+* __Callback blocks:__ _(one-to-one)_ 可以更加解耦，可以维护类似的相关嗲吗短。同时在有很多sender的时候比委托有更好的扩展性。
+* __Notification Center:__ _(one-to-many)_ 最常用的对象来向第一个观察者发送事件的方法。非常解耦合 - 通知甚至可以全局地进行观察，而不用引用派发对象
+* __Key-Value Observing (KVO):__ _(one-to-many)_ 不需要观察者来明确发送的时间，就像 _Key-Value Coding (KVC)_  符合观察的键（属性）。通常不推荐使用，因为他不自然的特性以及繁琐的API。
+* __Signals:__ _(one-to-many)_  [ReactiveCocoa][reactivecocoa-github] 的核心, 允许链接和组合你的内容, 提供了防止 [callback hell][elm-escape-from-callback-hell] 的一个方法。
+
+
 [elm-escape-from-callback-hell]: http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
 
 ### Models
 
 Keep your models immutable, and use them to translate the remote API's semantics and types to your app. Github's [Mantle](https://github.com/Mantle/Mantle) is a good choice.
 
+保持你的 model 是不可变的，以及用他们来改变远程的 API 的语义以及类型。Github 的 [Mantle](https://github.com/Mantle/Mantle) 是一个好的选择
+
 ### Views
 
 When laying out your views using Auto Layout, be sure to add the following to your class:
+
+当用 Auto Layout 布局你的 view 的时候，确保在你爹类中加入了下面的代码：
 
     + (BOOL)requiresConstraintBasedLayout
     {
@@ -242,10 +273,14 @@ When laying out your views using Auto Layout, be sure to add the following to yo
 
 Otherwise you may encounter strange bugs when the system doesn't call `-updateConstraints` as you would expect it to.
 
+否则当系统没有调用  `-updateConstraints` 的时候你可能会遇到奇怪的 bug
+
 ### Controllers
 
 Use dependency injection, i.e. pass any required objects in as parameters, instead of keeping all state around in singletons. The latter is okay only if the state _really_ is global.
 
+使用依赖注入，比如：传递任何需要的对象作为参数，而不是在一个单例中保持所有的状态。后一种方法仅仅在状态是  _真的_ 是全局的时候适用。
+ 
 ```objective-c
 + [[FooDetailsViewController alloc] initWithFoo:(Foo *)foo];
 ```
@@ -522,7 +557,12 @@ For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are 
 
 Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
 
+Xcode 有一个叫 Instruments 的分析工具，它包括了
+许多分析内存，CPU，网络通讯，图形以及更多的工具，他是复杂的，但是它的追踪内存缺少的时候还是满直观的。只需要在 Xcode 中 选择  _Product_ > _Profile_，选择 Allocations， 点击 Record 按钮并且用一些有用的字符串过滤Allocation Summary，比如你自己的app的类名。他的统计会在固定的列中统计并且告诉你每个对象有多少实例。到底是什么类一直增加实例导致内存耗尽。
+
 Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
+
+Instruments 也有自动化的工具来进行录制并且运行UI交互以及JavaScript文件。. [UI Auto Monkey][ui-auto-monkey] 是一个自动化随机点击、滑动以及旋转你的app的脚本，他再压力、渗透测试中很有用。
 
 [ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
@@ -530,9 +570,13 @@ Also good to know is that Instruments has an Automation tool for recording and p
 
 Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager][google-tag-manager]. The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
 
+有一些统计框架强烈推荐使用，他们直观地告诉你有多少人用你的应用。X 特效增加了用户么？Y 按钮很难找到么？为了回答这些问题，你可以发送事件，允许时间以及其他测量的信息到一个聚集整合并且可视化它们的服务。比如， [Google Tag Manager][google-tag-manager] 。这个是一个比 Google Analytics 更加有用的，可以在app 和统计之间插入数据，所以数据逻辑可以通过 web 服务进行修改，而不用更新你的app。
+
 [google-tag-manager]: http://www.google.com/tagmanager/
 
 A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
+
+一个好的实践是创建一个简单的 helper 类，比如 `XYZAnalyticsHelper`， 处理app 内部 model 以及数据格式s (XYZModel, NSTimeInterval, …)的改变来适应主要是字符串为主的数据层，
 
 ```objective-c
 
@@ -551,9 +595,13 @@ A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, tha
 
 This has the additional advantage of allowing you to swap out the entire Analytics framework behind the scenes if needed, without the rest of the app noticing.
 
-### Crash Logs
+他有更多邮电，允许你在必要的时候替换整个统计框架，而不用改变其他部分、
+
+### Crash Logs 崩溃日志
 
 First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter][plcrashreporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
+
+首先你应该让你的app想你一个服务发送崩溃日志。你可以手动实现，通过 [PLCrashReporter][plcrashreporter]  以及你自己的后端。但是强烈推荐你使用现有的服务，比如下面的
 
 * [Crashlytics](http://www.crashlytics.com)
 * [HockeyApp](http://hockeyapp.net)
@@ -565,9 +613,11 @@ First you should make your app send crash logs onto a server somewhere so that y
 Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
 
 
+只要一设置好，确保你 _保存了 the Xcode archive (`.xcarchive`)_  对于每一个 app 放出的版本。这个 归档中包含了够贱的app的二进制以及调试符号(`dSYM`)，你需要用每个版本特定的app把你的 Crash 报告符号化。
+
 ## Building
 
-### Build Configurations
+### Build Configurations 构建设置
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
@@ -617,6 +667,8 @@ For most environments the language is not needed, as the app will probably be in
 ## Deployment
 
 Deploying software on iOS devices isn't exactly straightforward. That being said, here are some central concepts that, once understood, will help you tremendously with it.
+
+部署一个软件到 iOS 设备上并不只管。只能说，有一些核心观点，只要理解了，对你有很大的帮助。
 
 ### Signing 签名
 
