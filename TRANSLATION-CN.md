@@ -158,7 +158,6 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
 
 如果你更喜欢在代码里面写界面，你会用过 Apple 难用的 'NSLayoutConstraint'  的工厂或者 [Visual Format Language][visual-format-language] 。前者很罗嗦，后者基于字符串，不利于编译器检查。
 
-[Masonry][masonry-github] remedies this by introducing its own DSL to make, update and replace constraints. A similar approach for Swift is taken by [Cartography][cartography-github], which builds on the language's powerful operator overloading features. For the more conservative, [FLKAutoLayout][flkautolayout-github] offers a clean, but rather non-magical wrapper around the native APIs.
 
 [Masonry][masonry-github] 通过它们自己的 DSL 来取代常量， Swift 中一个类似的库是 [Cartography][cartography-github]，它利用了语言的丰富的操作符重载特性。如果更加保守的话，[FLKAutoLayout][flkautolayout-github] 提供了一个干净但是没有太多魔法的原生 API 包装。
 
