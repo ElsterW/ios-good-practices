@@ -612,5 +612,4 @@ Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze 或者 Archive 操
 
 [futu-blog-iap]: http://futurice.com/blog/validating-in-app-purchases-in-your-ios-app
 
-
 [reactivecocoa-github]: https://github.com/ReactiveCocoa/ReactiveCocoa
