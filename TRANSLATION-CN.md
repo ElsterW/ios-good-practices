@@ -392,7 +392,7 @@ IconCheckmarkHighlighted@2x~ipad.png // iPad, Retina
 
 The modifiers `-568h`, `@2x`, `~iphone` and `~ipad` are not required per se, but having them in the file name when dragging the file to an image set will automatically place them in the right "slot", thereby preventing assignment mistakes that can be hard to hunt down.
 
-修饰名字 `-568h`, `@2x`, `~iphone` and `~ipad` 是不必要的，但是有他们在文件里面，当把文件拖进去的时候，Xcode会正确地处置它们。这避免赋值错误。
+修饰后缀 `-568h`, `@2x`, `~iphone` and `~ipad` 是不必要的，但是有他们在文件里面，当把文件拖进去的时候，Xcode会正确地处置它们。这避免赋值错误。
 
 ### Using Vector Images 使用向量图
 
@@ -564,7 +564,7 @@ Recommendations:
 
 Created by our very own [Ali Rantakari][ali-rantakari-twitter], Faux Pas is a fabulous static error detection tool. It analyzes your codebase and finds issues you had no idea even existed. Be sure to run this before shipping any iOS (or Mac) app!
 
-我们自己的[Ali Rantakari][ali-rantakari-twitter] 创建的，Faux Pas 是一个极佳的静态错误见车管哦工具，它分析你的代码并且找出那些甚至你没发现的问题。在提交你的 App 到应用商店前用它吧！
+我们自己的[Ali Rantakari][ali-rantakari-twitter] 创建的，Faux Pas 是一个极佳的静态错误检测工具，它分析你的代码并且找出那些你自己甚至都没发现的问题。在提交你的 App 到应用商店前用它吧！
 
 _(Note: all Futurice employees get a free license to this — just ask Ali.)_
 
@@ -579,7 +579,7 @@ When your app crashes, Xcode does not break into the debugger by default. To ach
 
 For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are two powerful visual inspectors that can save you hours of time, especially if you're using Auto Layout and want to locate views that are collapsed or off-screen. Granted, Xcode offers [something very similar][xcode-view-debugging] for free, but it's iOS 8+ only and feels somewhat less polished.
 
-对于视图 debug， [Reveal][reveal] 和 [Spark Inspector][spark-inspector]  是两个强有力的可视化检查工具，可以帮你省下很多时间。特别是你使用  Auto Layout  并且希望定位出问题或者溢出屏幕的视图的时候。 Xcode 提供了免费的[类似功能][xcode-view-debugging] ，但是只能适用于 iOS 8+ 并且不那么好用。
+对于视图 debug， [Reveal][reveal] 和 [Spark Inspector][spark-inspector]  这两个强有力的可视化检查工具可以帮你省下很多时间，特别是在你使用 Auto Layout  并且希望定位出问题或者溢出屏幕的视图的时候。Xcode 提供了免费的[类似功能][xcode-view-debugging] ，但是只能适用于 iOS 8+ 并且不那么好用。
 
 [reveal]: http://revealapp.com/
 [spark-inspector]: http://sparkinspector.com
@@ -590,11 +590,11 @@ For view debugging, [Reveal][reveal] and [Spark Inspector][spark-inspector] are 
 Xcode comes with a profiling suite called Instruments. It contains a myriad of tools for profiling memory usage, CPU, network communications, graphics and much more. It's a complex beast, but one of its more straight-forward use cases is tracking down memory leaks with the Allocations instrument. Simply choose _Product_ > _Profile_ in Xcode, select the Allocations instrument, hit the Record button and filter the Allocation Summary on some useful string, like the prefix of your own app's class names. The count in the Persistent column then tells you how many instances of each object you have. Any class for which the instance count increases indiscriminately indicates a memory leak.
 
 Xcode 有一个叫 Instruments 的分析工具，它包括了
-许多分析内存，CPU，网络通讯，图形以及更多的工具，他是复杂的，但是它的追踪内存缺少的时候还是满直观的。只需要在 Xcode 中 选择  _Product_ > _Profile_，选择 Allocations， 点击 Record 按钮并且用一些有用的字符串过滤Allocation Summary，比如你自己的app的类名。他的统计会在固定的列中统计并且告诉你每个对象有多少实例。到底是什么类一直增加实例导致内存耗尽。
+许多分析内存，CPU，网络通讯，图形以及更多的工具，它有点复杂的，但是它的追踪内存泄漏的时候还是蛮直观的。只需要在 Xcode 中 选择  _Product_ > _Profile_，选择 Allocations， 点击 Record 按钮并且用一些有用的字符串过滤申请空间的信息，比如你自己的app的类名。它会在固定的列中统计，并且告诉你每个对象有多少实例。到底是什么类一直增加实例导致内存泄漏。
 
 Also good to know is that Instruments has an Automation tool for recording and playing back UI interactions as JavaScript files. [UI Auto Monkey][ui-auto-monkey] is a script that will use Automation to randomly pummel your app with taps, swipes and rotations which can be useful for stress/soak testing.
 
-Instruments 也有自动化的工具来进行录制并且运行UI交互以及JavaScript文件。. [UI Auto Monkey][ui-auto-monkey] 是一个自动化随机点击、滑动以及旋转你的app的脚本，他再压力、渗透测试中很有用。
+Instruments 也有自动化的工具来进行录制并且运行UI交互以及JavaScript文件。. [UI Auto Monkey][ui-auto-monkey] 是一个自动化随机点击、滑动以及旋转你的app的脚本，他在压力、渗透测试中很有用。
 
 [ui-auto-monkey]: https://github.com/jonathanpenn/ui-auto-monkey
 
@@ -602,13 +602,13 @@ Instruments 也有自动化的工具来进行录制并且运行UI交互以及Jav
 
 Including some analytics framework in your app is strongly recommended, as it allows you to gain insights on how people actually use it. Does feature X add value? Is button Y too hard to find? To answer these, you can send events, timings and other measurable information to a service that aggregates and visualizes them – for instance, [Google Tag Manager][google-tag-manager]. The latter is more versatile than Google Analytics in that it inserts a data layer between app and Analytics, so that the data logic can be modified through a web service without having to update the app.
 
-有一些统计框架强烈推荐使用，他们直观地告诉你有多少人用你的应用。X 特效增加了用户么？Y 按钮很难找到么？为了回答这些问题，你可以发送事件，允许时间以及其他测量的信息到一个聚集整合并且可视化它们的服务。比如， [Google Tag Manager][google-tag-manager] 。这个是一个比 Google Analytics 更加有用的，可以在app 和统计之间插入数据，所以数据逻辑可以通过 web 服务进行修改，而不用更新你的app。
+强烈推荐使用一些统计框架，他们直观地告诉你有多少人用你的应用。X 特性增加了用户么？Y 按钮很难找到么？为了回答这些问题，你可以发送事件，允许时间以及其他记录的信息到一个聚集它们并且可视化它们的服务。比如， [Google Tag Manager][google-tag-manager] 。这个是一个比 Google Analytics 更加有用的地方是可以在app 和统计之间插入数据，所以数据逻辑可以通过 web 服务进行修改，而不用更新你的app。
 
 [google-tag-manager]: http://www.google.com/tagmanager/
 
 A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, that handles the translation from app-internal models and data formats (XYZModel, NSTimeInterval, …) to the mostly string-based data layer:
 
-一个好的实践是创建一个简单的 helper 类，比如 `XYZAnalyticsHelper`， 处理app 内部 model 以及数据格式s (XYZModel, NSTimeInterval, …)的改变来适应主要是字符串为主的数据层，
+一个好的实践是创建一个简单的 helper 类，比如 `XYZAnalyticsHelper`，处理 app 内部 model 以及数据格式 (XYZModel, NSTimeInterval, …)的变换，来适配字符串为主的数据层，
 
 ```objective-c
 
@@ -627,13 +627,13 @@ A good practice is to create a slim helper class, e.g. `XYZAnalyticsHelper`, tha
 
 This has the additional advantage of allowing you to swap out the entire Analytics framework behind the scenes if needed, without the rest of the app noticing.
 
-他有更多邮电，允许你在必要的时候替换整个统计框架，而不用改变其他部分、
+另外的优点是，你在必要的时候可以替换整个统计框架，而不用改变 app 其他部分。
 
 ### Crash Logs 崩溃日志
 
 First you should make your app send crash logs onto a server somewhere so that you can access them. You can implement this manually (using [PLCrashReporter][plcrashreporter] and your own backend) but it’s recommended that you use an existing service instead — for example one of the following:
 
-首先你应该让你的app想你一个服务发送崩溃日志。你可以手动实现，通过 [PLCrashReporter][plcrashreporter]  以及你自己的后端。但是强烈推荐你使用现有的服务，比如下面的
+应该让你的 app 向一个服务发送崩溃日志。你可以手动实现，通过 [PLCrashReporter][plcrashreporter]  以及你自己的后端。但是强烈推荐你使用现有的服务，比如下面的
 
 * [Crashlytics](http://www.crashlytics.com)
 * [HockeyApp](http://hockeyapp.net)
@@ -644,8 +644,7 @@ First you should make your app send crash logs onto a server somewhere so that y
 
 Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`)_ of every build you release. The archive contains the built app binary and the debug symbols (`dSYM`) which you will need to symbolicate crash reports from that particular version of your app.
 
-
-只要一设置好，确保你 _保存了 the Xcode archive (`.xcarchive`)_  对于每一个 app 放出的版本。这个 归档中包含了够贱的app的二进制以及调试符号(`dSYM`)，你需要用每个版本特定的app把你的 Crash 报告符号化。
+当你配置好后，确保你 _保存了 the Xcode archive (`.xcarchive`)_  对于每一个 app 放出的版本。这个 归档中包含了构建的app的二进制以及调试符号(`dSYM`)，你需要用每个版本特定的app把你的 Crash 报告符号化。
 
 ## Building
 
@@ -653,11 +652,11 @@ Once you have this set up, ensure that you _save the Xcode archive (`.xcarchive`
 
 Even simple apps can be built in different ways. The most basic separation that Xcode gives you is that between _debug_ and _release_ builds. For the latter, there is a lot more optimization going on at compile time, at the expense of debugging possibilities. Apple suggests that you use the _debug_ build configuration for development, and create your App Store packages using the _release_ build configuration. This is codified in the default scheme (the dropdown next to the Play and Stop buttons in Xcode), which commands that _debug_ be used for Run and _release_ for Archive.
 
-每一个简单的 app 都可以不同的方式构建，最基本的分离是 Xcode 给你 _debug_ 和 _release_  之间的构建。后者，在编译器有更多的优化，增加了需要调试的可能。 Apple 建议你在开发的时候用  _debug_ 模式，在打包的时候用 _release_  设置。这是默认（的 Scheme （Play 和 Stop 后面的下啦菜单），运行Run 的时候会 用 _debug_  设置而允许  Archive 的时候会使用 _release_。
+每一个简单的 app 都可以不同的方式构建，最基本的分离是 Xcode 给你 _debug_ 和 _release_  之间的构建方案。后者在编译的时候有更多的优化，可能会导致你需要多调试一些问题。 Apple 建议你在开发的时候用  _debug_ 模式，在打包的时候用 _release_  设置。这是默认的 Scheme （Play 和 Stop 后面的下拉菜单），运行Run 的时候会 用 _debug_  设置而运行  Archive 的时候会使用 _release_。
 
 However, this is a bit too simple for real-world applications. You might – no, [_should!_][futurice-environments] – have different environments for testing, staging and other activities related to your service. Each might have its own base URL, log level, bundle identifier (so you can install them side-by-side), provisioning profile and so on. Therefore a simple debug/release distinction won't cut it. You can add more build configurations on the "Info" tab of your project settings in Xcode.
 
-然后，对于真实的 app 这似乎太简单了。你可能，不， [_should!_][futurice-environments] 设置多个为测试，staging和其他相关的开发活动。每一个可能有自己的 URL，日志级别，bundle ID）所以你可以一起安装它们，以及描述文件。然后一个简单的 debug/release  区别不能分离这些，你可以在你项目的设置中的 Info 选项卡做更多的编译设置。
+然后，对于真实的 app 这似乎太简单了。你 [_不该_][futurice-environments] 设置多个为测试，staging和其他相关的开发活动。每一个可能有自己的 URL，日志级别，bundle ID）所以你可以一起安装它们，以及描述文件。然后一个简单的 debug/release  区别不能分离这些，你可以在你项目的设置中的 Info 选项卡做更多的编译设置。
 
 [futurice-environments]: https://blog.futurice.com/five-environments-you-cannot-develop-without
 
@@ -683,7 +682,7 @@ Typically build settings are specified in the Xcode GUI, but you can also use _c
 Find more information about this topic in [these presentation slides][xcconfig-slides].
 
 
-更多关于这个主题的信息请看： [these presentation slides][xcconfig-slides].
+更多关于这个主题的信息请看[这个 PPT][xcconfig-slides]。
 
 [xcconfig-slides]: https://speakerdeck.com/hasseg/xcode-configuration-files
 
@@ -698,7 +697,7 @@ A target resides conceptually below the project level, i.e. a project can have s
 
 Schemes tell Xcode what should happen when you hit the Run, Test, Profile, Analyze or Archive action. Basically, they map each of these actions to a target and a build configuration. You can also pass launch arguments, such as the language the app should run in (handy for testing your localizations!) or set some diagnostic flags for debugging.
 
-Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze or Archive 操作的时候应该怎么做。它们吧这些操作映射到一个 target 和一个构建设置中。你可以传递启动参数，比如 app 需要允许的语言（为了测试本地话）或者一些了为了调试用的诊断标志。
+Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze 或者 Archive 操作的时候应该怎么做。它们把这些操作映射到一个 target 和一个构建设置中。你可以传递启动参数，比如 app 需要允许的语言（为了测试本地化）或者一些了为了调试用的诊断标志。
 
 A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
 
@@ -713,7 +712,7 @@ A suggested naming convention for schemes is `MyApp (<Language>) [Environment]`:
 For most environments the language is not needed, as the app will probably be installed through other means than Xcode, e.g. TestFlight, and the launch argument thus be ignored anyway. In that case, the device language should be set manually to test localization.
 
 
-对于大多数环境来说语言是不必要的，app会可能会以非Xcode的方式安装，比如 TestFlight， 启动参数也会被忽略。这个情况下，为了测试本地话需要手动设置设备的语言。
+对于大多数环境来说语言部分是不必要的，app 会可能会以非 Xcode 的方式安装，比如用 TestFlight， 启动参数会被忽略。这个情况下，为了测试本地化需要手动设置设备的语言。
 
 ## Deployment
 
@@ -725,25 +724,25 @@ Deploying software on iOS devices isn't exactly straightforward. That being said
 
 Whenever you want to run software on an actual device (as opposed to the simulator), you will need to sign your build with a __certificate__ issued by Apple. Each certificate is linked to a private/public keypair, the private half of which resides in your Mac's Keychain. There are two types of certificates:
 
-当你需要在真实设备上允许软件的时候，你需要用一个 Apple 认证的   __证书__ 签名。每一个证书是连接到一个 公、私 密钥对，私钥会保存在你的 Mac 的 KeyChain里面，证书有两种类型
+当你需要在真实设备上运行软件的时候，你需要用一个 Apple 认证的   __证书__ 签名。每一个证书是连接到一个 公、私 密钥对，私钥会保存在你的 Mac 的 KeyChain 里面，证书有两种类型
 
 * __Development certificate:__ Every developer on a team has their own, and it is generated upon request. Xcode might do this for you, but it's better not to press the magic "Fix issue" button and understand what is actually going on. This certificate is needed to deploy development builds to devices.
 * __Distribution certificate:__ There can be several, but it's best to keep it to one per organization, and share its associated key through some internal channel. This certificate is needed to ship to the App Store, or your organization's internal "enterprise app store".
 
 
-* __Development certificate:__ 每个组的开发者都有自己的证书，而且它通过请求特到。Xcode可以帮你完成，但是最好不用点击 "Fix issue" 来完成，而是理解它到底做了什么事情。在部署开发版本到设备上的时候需要这个证书。
-* __Distribution certificate:__ 发布证书，可能有多重，但是最好每一个组织有一个，并且通过内部渠道共享。在提交 App 到 App Store 或者你的企业的内部 App Store的时候需要这个证书。
+* __开发证书:__ 每个组的开发者都有自己的证书，而且它通过请求特到。Xcode可以帮你完成，但是最好不用点击 "Fix issue" 来完成，而是理解它到底做了什么事情。在部署开发版本到设备上的时候需要这个证书。
+* __发布证书:__ 可以有多个，但是最好每一个组织有一个，并且通过内部渠道共享。在提交 App 到 App Store 或者你的企业的内部 App Store的时候需要这个证书。
 
-### Provisioning
+### Provisioning 描述文件
 
 Besides certificates, there are also __provisioning profiles__, which are basically the missing link between devices and certificates. Again, there are two types to distinguish between development and distribution purposes:
 
-除了证书，还有  __provisioning profiles__， 它把设备和证书连接起来。而且，它分成 开发 和 分发两种累心。
+除了证书，还有  __描述文件__， 它把设备和证书连接起来。而且，它分成开发和发布两种类型。
 
 * __Development provisioning profile:__ It contains a list of all devices that are authorized to install and run the software. It is also linked to one or more development certificates, one for each developer that is allowed to use the profile. The profile can be tied to a specific app, but for most development purposes it's perfectly fine to use the wildcard profile, whose App ID ends in an asterisk (*).
 
 
-* __Development provisioning profile: 它包含了一个包含所有能安装这个 app 的设备列表。它同事连接了一个或者多个开发者允许这个 profile使用的证书。profile 可以确认特定的 app，但是对于大多数开发目的，它特别适合用一个通配符 profile，也就是 Apple ID 以一个 星号 (*)结尾的。
+* __Development provisioning profile: 它包含了一个包含所有能安装这个 app 的设备列表。它连接了一个或者多个开发者允许这个 profile使用的证书。profile 可以确认特定的 app，但是对于大多数开发目的，它特别适合用一个通配符 profile，也就是 Apple ID 以一个 星号 (*)结尾的。
 
 * __Distribution provisioning profile:__ There are three different ways of distribution, each for a different use case. Each distribution profile is linked to a distribution certificate, and will be invalid when the certificate expires.
     * __Ad-Hoc:__ Just like development profiles, it contains a whitelist of devices the app can be installed to. This type of profile can be used for beta testing on 100 devices per year. For a smoother experience and up to 1000 distinct users, you can use Apple's newly acquired [TestFlight][testflight] service. Supertop offers a good [summary of its advantages and issues][testflight-discussion].
@@ -765,13 +764,13 @@ Besides certificates, there are also __provisioning profiles__, which are basica
 To sync all certificates and profiles to your machine, go to Accounts in Xcode's Preferences, add your Apple ID if needed, and double-click your team name. There is a refresh button at the bottom, but sometimes you just need to restart Xcode to make everything show up.
 
 
-想同步所有的证书和 profile到你的机器，可以去 Xcode 的  Preferences 的 Accounts下，添加你的 Apple ID, 然后双击你的 Team 名称。然后底部会有一个刷新按钮，有时候你需要重启 Xcode 来让东西显示出来。
+想同步所有的证书和描述文件到你的机器，可以去 Xcode 的  Preferences 的 Accounts下，添加你的 Apple ID, 然后双击你的 Team 名称。然后底部会有一个刷新按钮，有时候你需要重启 Xcode 来让东西显示出来。
 
-#### Debugging Provisioning 调试的描述文件
+#### Debugging Provisioning 调试描述文件
 
 Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse to install the build to an attached device, because the latter is not on the (development or ad-hoc) profile's device list. In those cases, you can use Craig Hockenberry's excellent [Provisioning][provisioning] plugin by browsing to `~/Library/MobileDevice/Provisioning Profiles`, selecting a `.mobileprovision` file and hitting Space to launch Finder's Quick Look feature. It will show you a wealth of information such as devices, entitlements, certificates, and the App ID.
 
-有时候你需要调试一个 provisioning 的问题。比如，XCode可能拒绝安装 app 到一个设备中，因为设备没有在 (development or ad-hoc)  的 profile 设备列表中。这个情况下，你可以使用 Craig Hockenberry 的优秀的 [Provisioning][provisioning] 插件，浏览 `~/Library/MobileDevice/Provisioning Profiles`，选择一个  `.mobileprovision` 文件，并用空格键调用 Finder 的快速查看特性，它会告诉你关于设备，entitlements，证书以及 Apple ID的信息。
+有时候你需要调试一个描述文件的问题。比如，XCode 可能拒绝安装 app 到一个设备中，因为设备没有在开发或者 Ad-doc发布的的描述文件设备列表中。这个情况下，你可以使用 Craig Hockenberry 的 [Provisioning][provisioning] 插件，浏览 `~/Library/MobileDevice/Provisioning Profiles`，选择一个  `.mobileprovision` 文件，并用空格键调用 Finder 的快速查看特性，它会告诉你关于设备，entitlements，证书以及 Apple ID的信息。
 
 [provisioning]: https://github.com/chockenberry/Provisioning
 
@@ -779,11 +778,11 @@ Sometimes you need to debug a provisioning issue. For instance, Xcode may refuse
 
 [iTunes Connect][itunes-connect] is Apple's portal for managing your apps on the App Store. To upload a build, Xcode 6 requires an Apple ID that is part of the developer account used for signing. This can make things tricky when you are part of several developer accounts and want to upload their apps, as for mysterious reasons _any given Apple ID can only be associated with a single iTunes Connect account_. One workaround is to create a new Apple ID for each iTunes Connect account you need to be part of, and use Application Loader instead of Xcode to upload the builds. That effectively decouples the building and signing process from the upload of the resulting `.app` file.
 
-[iTunes Connect][itunes-connect] 是苹果的管理你的上传到 App Store的 App 的后台。 Xcode 6 需要一个 Apple ID 作为开发者账号来签名并且上传二进制。This can make things tricky when you are part of several developer accounts and want to upload their apps, 因为 _一个 Apple ID 只能和一个 iTunes Connect 账号关联_, 一个变通方案是为每个 iTunes Connect 账号创建一个新的　Apple ID, 使用  Application Loader 取代 Xcode 来上传应用。这样有效地解除了上传最终 `.app` 文件构建和签名的耦合。
+[iTunes Connect][itunes-connect] 是你管理上传到 App Store的 App 的后台网站。 Xcode 6 需要一个 Apple ID 作为开发者账号来签名并且上传二进制。如果你有多个开发者账号而且要上传它们的 app 就需要一点技巧。 因为 _一个 Apple ID 只能和一个 iTunes Connect 账号关联_, 一个变通方案是为每个 iTunes Connect 账号创建一个新的　Apple ID, 使用  Application Loader 取代 Xcode 来上传应用。这样有效地解除了上传最终 `.app` 文件构建和签名的耦合。
 
 After uploading the build, be patient as it can take up to an hour for it to show up under the Builds section of your app version. When it appears, you can link it to the app version and submit your app for review.
 
-再上传二进制后，耐心等待，可能要画上一个小时。当你的 App出现后，可以链接到对应的App版本并且提交审核
+在上传二进制后，耐心等待，可能要花上一个小时。当你的 App 出现后，可以链接到对应的App版本并且提交审核
 
 [itunes-connect]: https://itunesconnect.apple.com
 
@@ -791,7 +790,7 @@ After uploading the build, be patient as it can take up to an hour for it to sho
 
 When validating in-app purchase receipts, remember to perform the following checks:
 
-当验证一个 App内购的  receipt的时候，记住做以下步骤：
+当验证一个 App内购的 receipt的时候，记住做以下步骤：
 
 - __Authenticity:__ That the receipt comes from Apple
 - __Integrity:__ That the receipt has not been tampered with
