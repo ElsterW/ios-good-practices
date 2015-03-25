@@ -564,13 +564,13 @@ Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze 或者 Archive 操
 除了证书，还有  __描述文件__， 它把设备和证书连接起来。而且，它分成开发和发布两种类型。
 
 
-* __Development provisioning profile: 它包含了一个包含所有能安装这个 app 的设备列表。它连接了一个或者多个开发者允许这个 profile使用的证书。profile 可以确认特定的 app，但是对于大多数开发目的，它特别适合用一个通配符 profile，也就是 Apple ID 以一个 星号 (*)结尾的。
+* __Development provisioning profile__: 开发描述文件， 它包含了一个包含所有能安装这个 app 的设备列表。它连接了一个或者多个开发者允许这个描述文件使用的证书。描述文件可以确认特定的 app，但是对于大多数开发目的，它特别适合用一个通配符描述文件，也就是 Apple ID 以一个 星号 (*)结尾的。
 
 
-* __Distribution provisioning profile:__ 发布 profile 本身，对于不同使用目的也有不同的类型。每一个发布 profile  链接到一个发布证书，并且在证书过期的时候失效。
-    * __Ad-Hoc:__ 就像开发证书一个，它包含了一个 app 可以安装的设备的白名单。这个 profile 可以用来做 beta 版本，每年可以测试 100 个设备。为了做更细致的测试以及升级到 1000 个测试用户，你可以使用 Apple 最近发布的  [TestFlight][testflight] 服务， Supertop 提供了一个 [summary of its advantages and issues][testflight-discussion].
+* __Distribution provisioning profile:__ 发布描述文件 本身，对于不同使用目的也有不同的类型。每一个发布描述文件 链接到一个发布证书，并且在证书过期的时候失效。
+    * __Ad-Hoc:__ 就像开发证书一个，它包含了一个 app 可以安装的设备的白名单。这个描述文件可以用来做 beta 版本，每年可以测试 100 个设备。为了做更细致的测试以及升级到 1000 个测试用户，你可以使用 Apple 最近发布的  [TestFlight][testflight] 服务， Supertop 提供了一个 [summary of its advantages and issues][testflight-discussion].
     * __App Store:__  这个 profile 没有列出设备，任何人都可以通过苹果官方的发布来安装，所有 App Store 发布的 App都需要这个证书
-    * __Enterprise:__ 就像 App Store，没有设备白名单，任何通过企业内部网络的人都可以从内部“应用商店”安装。应用商店可能只是一个带连接的网站。这个 profile 只允许企业账号使用。
+    * __Enterprise:__ 就像 App Store，没有设备白名单，任何通过企业内部网络的人都可以从内部“应用商店”安装。应用商店可能只是一个带连接的网站。这个描述文件只允许企业账号使用。
 
 
 
