@@ -1,7 +1,15 @@
 iOS最佳实践
 ==================
 
-本文翻译自 [futurice 公司](http://www.futurice.com/)的 [iOS Good Practices](https://github.com/futurice/ios-good-practices)，并在 [Github](https://github.com/oa414/ios-good-practices) 上进行维护。
+## 译者注
+
+本文翻译自 [futurice 公司](http://www.futurice.com/)的 [iOS Good Practices](https://github.com/futurice/ios-good-practices)，译文在 [Github](https://github.com/oa414/ios-good-practices) 上进行维护，同时在 [简书](http://www.jianshu.com/p/b0bf2368fb95) 上进行发布。
+
+本文尚未经过大牛审校，纰漏瑕疵以及语句不顺的地方，以在 [Github](https://github.com/oa414/ios-good-practices) 提出，请大家多多指正。
+
+以下是正文
+
+--------------
 
 _就像软件一样，如果我们不持续改进这份文档，它就会落伍。我们希望大家都来帮助我们改进它 —— 只要开一个 issue 或者发送一个  pull request!_
 
@@ -101,7 +109,6 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
 
     -AppleLanguages (Finnish)
 
-For more complex translations such as plural forms that depending on a number of items (e.g. "1 person" vs. "3 people"), you should use the [`.stringsdict` format][stringsdict-format] instead of a regular `localizable.strings` file. As soon as you've wrapped your head around the crazy syntax, you have a powerful tool that knows how to make plurals for "one", some", "few" and "many" items, as needed [e.g. in Russian or Arabic][language-plural-rules].
 
 对于更复杂的翻译问题，比如复数（比如 "1 person" 和  "3 people"），你应该使用 [`.stringsdict` format][stringsdict-format]  而不是一个普通的  `localizable.strings` 文件。在有了这个强大的工具来处理比如  "one", some", "few" 和 "many" 的情况。 [当处理俄罗斯语和阿拉伯语的时候][language-plural-rules]，你就不用急得抓耳挠腮了。
 
@@ -183,12 +190,11 @@ For more complex translations such as plural forms that depending on a number of
 这里有一些通知其他对象的常用方法：
 
 
-
-* __Delegation:__ _(one-to-one)_ Apple 经常用它（或者说，太多了）。用它来执行回调，比如， Model View 做一个回调
-* __Callback blocks:__ _(one-to-one)_ 可以更加解耦，可以维护类似的相关代码段。同时在有很多 sender 的时候比委托有更好的扩展性。
-* __Notification Center:__ _(one-to-many)_ 最常用的对象来向第一个观察者发送事件的方法。非常解耦合 - 通知甚至可以全局地进行观察，而不用引用派发对象
-* __Key-Value Observing (KVO):__ _(one-to-many)_ 不需要观察者来明确发送的时间，就像 _Key-Value Coding (KVC)_  符合观察的键（属性）。通常不推荐使用，因为他不自然的特性以及繁琐的API。
-* __Signals:__ _(one-to-many)_  [ReactiveCocoa][reactivecocoa-github] 的核心, 允许链接和组合你的内容, 提供了防止 [callback hell][elm-escape-from-callback-hell] 的一个方法。
+* __Delegation （委托）:__ _(一对一)_ Apple 经常用它（或者说，太多了）。用它来执行回调，比如， Model View 做一个回调
+* __Callback blocks （回调代码块）:__ _(一对一)_ 可以更加解耦，可以维护类似的相关代码段。同时在有很多 sender 的时候比委托有更好的扩展性。
+* __Notification Center （通知）:__ _(一对多)_ 最常用的对象来向第一个观察者发送事件的方法。非常解耦合 - 通知甚至可以全局地进行观察，而不用引用派发对象
+* __Key-Value Observing (KVO，键值编码):__ _(一对多)_ 不需要观察者来明确发送的时间，就像 _Key-Value Coding (KVC)_  符合观察的键（属性）。通常不推荐使用，因为他不自然的特性以及繁琐的API。
+* __Signals（信号）:__ _(一对多)_  [ReactiveCocoa][reactivecocoa-github] 的核心, 允许链接和组合你的内容, 提供了防止 [callback hell][elm-escape-from-callback-hell] 的一个方法。
 
 
 [elm-escape-from-callback-hell]: http://elm-lang.org/learn/Escape-from-Callback-Hell.elm
@@ -384,8 +390,6 @@ static CGFloat const XYZFooFloatConstant = 1234.5;
 
 ###  其他风格指南
 
-Futurice does not have company-level guidelines for coding style. It can however be useful to peruse the Objective-C style guides of other development shops, even if some bits can be quite company-specific or opinionated:
-
 我们公司没有任何公司级别的代码风格指南，详细看看其他开发者的 Objective-C 风格指南很有用，即使一些内容是公司相关的或者过于激进了。
 
 
@@ -406,8 +410,8 @@ Futurice does not have company-level guidelines for coding style. It can however
 
 简单的来说，至少需要在  _“Other Warning Flags” 编译设置里面定义下面的值：
 
-- `-Wall` _(Enables lots of additional warnings)_
-- `-Wextra` _(Enables more additional warnings)_
+- `-Wall` _(增加很多的警告)_
+- `-Wextra` _(增加更多的警告)_
 
 
 同时打开 _“Treat warnings as errors”_ 
@@ -595,7 +599,6 @@ Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze 或者 Archive 操
 
 ## 应用内购买
 
-
 当验证一个 App内购的 receipt的时候，记住做以下步骤：
 
 - __Authenticity:__  receipt 是来自 Apple 的
@@ -603,7 +606,6 @@ Schemes 告诉 Xcode 在你点击 Run, Test, Profile, Analyze 或者 Archive 操
 - __App match:__ receipt 的 App bundle ID  和你的 App bundle ID 一致 
 - __Product match:__ receipt 里面产品 ID和你期望的一致 
 - __Freshness:__ 你之前没有验证一样的 receipt ID
-
 
 
 如果可能，把你的 IAP 存储销售相关的内容存储在服务器端，并且只在一个合法的经过上述检查的 receipt。这样的设计避免了常见的盗窃机制，同时，因为服务器做了验证，所以你可以使用 Apple 的 HTTP 验证服务来取代你自己的 `PKCS #7` / `ASN.1` 格式。
