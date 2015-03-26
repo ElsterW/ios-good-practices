@@ -28,7 +28,7 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
 
 [Xcode][xcode] 是大多数 iOS 开发者的选择，并且是 Apple 唯一官方支持的IDE。有一些其他的选择，比如 [AppCode][appcode] 是最有名的，但是除非你是经验丰富的开发者，否则就使用 Xcode 吧。不要管它的一些小缺点啦，它现在已经蛮好用咯。
 
-要安装 Xcode，只需要下载 [Mac App Store 中的 Xcode ][xcode-app-store]。它会同时下载最新的 SDK 和模拟器，同事你可以从 _Preferences > Downloads_ 下载更多的内容。
+要安装 Xcode，只需要下载 [Mac App Store 中的 Xcode ][xcode-app-store]。它会同时下载最新的 SDK 和模拟器，同时你可以从 _Preferences > Downloads_ 下载更多的内容。
 
 [xcode]: https://developer.apple.com/xcode/
 [appcode]: https://www.jetbrains.com/objc/
@@ -78,7 +78,7 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
 
     pod install
 
-来安装第三非苦并且将它们作为 workspace 的一部分，你的 workspace 也会包含你自己的项目。 一般推荐[提交你自己的项目的依赖][committing-pods]，而不是每个开发者在一个 checkout之后运行 `pod install` 。
+来安装第三方库并且将它们作为 workspace 的一部分，你的 workspace 也会包含你自己的项目。 一般推荐[提交你自己的项目的依赖][committing-pods]，而不是每个开发者在一个 checkout之后运行 `pod install` 。
 
 注意在之后，你需要打开 `.xcworkspace`  而不是 `.xcproject`，否则你的代码就不能被编译了，命令：
 
@@ -105,7 +105,7 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
 
 #### 本地化
 
-一开始就应该把所有的显示给用户的字符串放进本地化文件。这样不仅仅为了翻译方便，同事也便于查找用户看见的文本。你可以在 build Scheme 中加入一个启动参数来指定特定的语言
+一开始就应该把所有的显示给用户的字符串放进本地化文件。这样不仅仅为了翻译方便，同时也便于查找用户看见的文本。你可以在 build Scheme 中加入一个启动参数来指定特定的语言
 
     -AppleLanguages (Finnish)
 
