@@ -173,7 +173,7 @@ _就像软件一样，如果我们不持续改进这份文档，它就会落伍�
     * 这是 Apple 默认的架构（MVC），通过扩展一表示 Model 实例的存储层以及处理网络，缓存等内容。
     * 每一个存储通过 `RACSignal`s 或者   `void` 返回值的自定义 block 方法来返回。
 * [Model-View-ViewModel (MVVM)][mvvm]
-    * 通过  "massive view controllers": MVVM 认为 `UIViewController` 子类是vuew的一部分，并且保持精简，通过在 viewmodel里面维持状态。 
+    * 通过  "massive view controllers": MVVM 认为 `UIViewController` 子类是 view 的一部分，并且保持精简，通过在 viewmodel里面维持状态。 
     * 对于 Cocoa 开发者是非常新的概念，但是 [获得][cocoasamurai-rac] [推动][raywenderlich-mvvm]
 * [View-Interactor-Presenter-Entity-Routing (VIPER)][viper]
     * 值得在大型项目中一看的架构，在 MVVM 都显得复杂，而且需要关注测试的时候。
